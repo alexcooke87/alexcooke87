@@ -7,9 +7,9 @@
 ## 🖥️ Hardware Inventory
 | Node | Model | CPU | RAM | Primary Storage | Role | Operating System | IP Address |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **pve1** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 1TB NVMe | Primary Compute | Proxmox VE 9.2 | `192.168.3.1` |
-| **pve2** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 1TB NVMe | Secondary Compute | Proxmox VE 9.2 | `192.168.3.2` | 
-| **pve3** | Beelink EQ12 | Intel N100 (4C/4T) | 16GB | 500GB SSD | Quorum / HA DNS | Proxmox VE 9.2 | `192.168.3.3` |
+| **pve1** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 4TB NVMe SSD | Primary Compute | Proxmox VE 9.2 | `192.168.3.1` |
+| **pve2** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 4TB NVMe SSD | Secondary Compute | Proxmox VE 9.2 | `192.168.3.2` | 
+| **pve3** | Beelink EQ12 | Intel N100 (4C/4T) | 16GB | NVMe SSD | Quorum / HA DNS / Backup | Proxmox VE 9.2 | `192.168.3.3` |
 
 ---
 
