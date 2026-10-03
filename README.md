@@ -29,7 +29,8 @@ Typical stack components include:
 - Reverse proxies (Nginx Proxy Manager, Traefik)
 - Media automation (*arr stack)
 - Databases (MariaDB, PostgreSQL)
-- Monitoring & automation (Watchtower, Uptime Kuma)
+- Monitoring & automation (Watchtower, Uptime Kuma, Portainer)
+- DNS & remote access (Pi-hole, Cloudflare Tunnel)
 - Network and smart-home–adjacent services
 
 ---
@@ -56,11 +57,12 @@ Typical stack components include:
 Typical deployment workflow:
 
 ```text
-Git Push → Server Pull → Docker Compose Up
+Git Push → CI Validation (compose lint + secret scan) → Portainer GitOps Pull → Docker Compose Up
 ```
 
-- No CI/CD runners
-- No cloud build pipelines
+- Pull-based deployments: servers pull from Git, nothing pushes into the network
+- GitHub Actions used for validation only, never for deployment
+- Secrets stay out of Git (`.env.example` templates only)
 - Simple, predictable, auditable deployments
 
 ---
