@@ -1,44 +1,46 @@
 # 🏠 Homelab Infrastructure Documentation
-**Last Updated:** 2026-01-31
+**Last Updated:** 2026-10-03
 **Environment:** Proxmox VE Cluster (`pve1`, `pve2`, `pve3`)
 
 ---
 
 ## 🖥️ Hardware Inventory
-| Node | Model | CPU | RAM | Primary Storage | Role | IP Address |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **pve1** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 1TB NVMe | Primary Compute | `192.168.3.1` |
-| **pve2** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 1TB NVMe | Secondary Compute | `192.168.3.2` | 
-| **pve3** | Beelink EQ12 | Intel N100 (4C/4T) | 16GB | 500GB SSD | Quorum / HA DNS | `192.168.3.3` |
+| Node | Model | CPU | RAM | Primary Storage | Role | Operating System | IP Address |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **pve1** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 1TB NVMe | Primary Compute | Proxmox VE 9.2 | `192.168.3.1` |
+| **pve2** | MINISFORUM M1-1295 | i9-12950HX (16C/24T) | 32GB | 1TB NVMe | Secondary Compute | Proxmox VE 9.2 | `192.168.3.2` | 
+| **pve3** | Beelink EQ12 | Intel N100 (4C/4T) | 16GB | 500GB SSD | Quorum / HA DNS | Proxmox VE 9.2 | `192.168.3.3` |
 
 ---
 
-## 📦 Proxmox Virtual Resources (LXCs)
+## 📦 Proxmox Virtual Resources (VMs & LXCs)
 
 ### Node: pve1
-| VMID | Name | IP Address | Service Type | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| 100 | `lxc-pihole-1` | `192.168.3.100` | Ad-blocking/DNS | Running |
-| 101 | `lxc-docker-1` | `192.168.3.101` | Management Stack | Running |
-| 102 | `lxc-arrstack-1` | `192.168.3.102` | Media Stack | Running |
+| VMID | Name | IP Address | Service Type | Operating System | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| CT100 | `lxc-pihole-1` | `192.168.3.100` | Ad-blocking/DNS | Debian 13 | Running |
+| CT101 | `lxc-docker-1` | `192.168.3.101` | Management Stack | Debian 13 | Running |
+| CT102 | `lxc-arrstack-1` | `192.168.3.102` | Media Stack | Debian 13 | Running |
 
 ### Node: pve2
-| VMID | Name | IP Address | Service Type | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| 200 | `lxc-pihole-2` | `192.168.3.200` | Ad-blocking/DNS | Running |
-| 201 | `lxc-docker-2` | `192.168.3.201` | Ingress/Web | Running |
+| VMID | Name | IP Address | Service Type | Operating System | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| CT200 | `lxc-pihole-2` | `192.168.3.200` | Ad-blocking/DNS | Debian 13 | Running |
+| CT201 | `lxc-docker-2` | `192.168.3.201` | Ingress/Web | Debian 13 | Running |
 
 ### Node: pve3
-| VMID | Name | IP Address | Service Type | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| 254 | `lxc-pihole-3` | `192.168.3.254` | Ad-blocking/DNS | Running |
+| VMID | Name | IP Address | Service Type | Operating System | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| VM253 | `vm-pbs` | `192.168.3.253` | Proxmox Backup Server | PBS OS (Debian 13) | Running |
+| CT254 | `lxc-pihole-3` | `192.168.3.254` | Ad-blocking/DNS | Debian 13 | Running |
 
 ---
 
 ## 🔌 Service Port Mappings
-| Service | Parent LXC | Internal IP | Port | Access Type |
+| Service | Parent Host | Internal IP | Port | Access Type |
 | :--- | :--- | :--- | :--- | :--- |
 | **Pi-hole Admin** | `pihole-[1-3]` | `.100 / .200 / .254` | `80` | HTTP |
+| **PBS Admin UI** | `vm-pbs` | `192.168.3.253` | `8007` | HTTPS |
 | **NPM Admin** | `lxc-docker-2` | `192.168.3.201` | `81` | HTTP |
 | **Portainer** | `docker-[1-2]` | `.101 / .201` | `9443` | HTTPS |
 | **Uptime Kuma** | `lxc-docker-1` | `192.168.3.101` | `3001` | HTTP |
